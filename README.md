@@ -1,4 +1,4 @@
-<img src="https://github.com/ExZiByte/Quiver-Yet-Again/assets/Quiver-Banner-1800x200.png">
+<img src="https://github.com/ExZiByte/Quiver-Yet-Again/assets/Quiver-Banner.png">
 
 <div align="center">
 <a href="https://nestedvariables.tk/quiver">
