@@ -1,4 +1,4 @@
-<img src="https://raw.githubusercontent.com/ExZiByte/Quiver-Yet-Again/master/assets/QuiverBanner.png?token=AFPLSIUNNNWK77LHO525TZDB2IYOQ">
+<img src="https://cdn.discordapp.com/attachments/239612258492088321/529351946918952980/Quiver.png">
 
 <div align="center">
 <a href="https://nestedvariables.tk/quiver">
