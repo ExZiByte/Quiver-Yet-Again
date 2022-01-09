@@ -1,7 +1,7 @@
 <img src="https://cdn.discordapp.com/attachments/239612258492088321/529351946918952980/Quiver.png">
 
 <div align="center">
-<a href="https://exacu.be/quiver">z
+<a href="https://exacu.be/quiver">
 <img src="https://img.shields.io/badge/Quiver%27s-Website-%23d42f94.svg?style=for-the-badge&logoColor=white&colorA=1c2631&colorB=d42f94&logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAAOCAQAAABedl5ZAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAAmJLR0QAAKqNIzIAAAAJcEhZcwAACxMAAAsTAQCanBgAAAAHdElNRQfjAwwHCjsf2RHPAAABBElEQVQY02XQv0uVcQBG8c/7fW/3x3DvoLUkgrQ4mBBKOOrQ5C46tOgQzu6Bg4tQS/QfCG4tDa1BW1hkQy4mCQUmLoaBht37OGST54xnO1JnOr24SdE34Zmx+J9zrchY9vMizUxmLuPpRoaynukq1OZN+W3Nbb98s+vUY0+rwF0bljS89VMXhz74JFLyMskgO7kTqVNH7mWkoGvGsWWv3Ee/6qPtvIGOIe9sGbbqu6+h0nBe0NK0a+DEawt6qBWXBW0X3oPP9iwomgb+FrNWfPGRCt7oeOKBC2Q9B1lML53UEZnNWfbyMBqe29Y36pbKwB/FD+Nm7FT/rqFSa2lreWTKpqMr/GNu4Xdm1dMAAAAldEVYdGRhdGU6Y3JlYXRlADIwMTktMDMtMTJUMDc6MTA6NTktMDQ6MDBP/JPjAAAAJXRFWHRkYXRlOm1vZGlmeQAyMDE5LTAzLTEyVDA3OjEwOjU5LTA0OjAwPqErXwAAAABJRU5ErkJggg==">
 
 </a>
