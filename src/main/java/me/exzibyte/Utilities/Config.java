@@ -29,7 +29,7 @@ public class Config {
             configuration.put("dbURI", obj.get("databaseURI").toString());
             configuration.put("shardCount", obj.get("shardCount").toString());
             configuration.put("disabledCommands", obj.get("disabledCommands").toString());
-            locales.put("availableLocales", obj.get("locales").toString());
+            //locales.put("availableLocales", obj.get("locales").toString());
 
         } catch(IOException | ParseException exception){
             logging.error(this.getClass(), exception.getMessage());

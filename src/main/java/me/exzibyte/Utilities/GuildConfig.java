@@ -35,6 +35,7 @@ public class GuildConfig {
                 JSONObject obj = (JSONObject) parser.parse(cursor.next().toJson());
 
                 HashMap<String, String> data = new HashMap<String, String>();
+                logging.info(this.getClass(), obj.toString());
                 data.put("locale", obj.get("locale").toString());
                 data.put("prefix", obj.get("prefix").toString());
                 data.put("logChannel", obj.get("logChannelID").toString());
@@ -55,4 +56,12 @@ public class GuildConfig {
 
     }
 
+
+    public String get(String key, String guildID){
+        return configuration.get(guildID).get(key).toString();
+    }
+
+    public String get(String key, Long guildID){
+        return configuration.get(guildID).get(key).toString();
+    }
 }

@@ -21,7 +21,7 @@ public class Database {
 
     public void connect() {
         client = new MongoClient(clientURI);
-        db = client.getDatabase("Quiver");
+        db = client.getDatabase("quiver-dev");
     }
 
     public MongoCollection<Document> getCollection(String collection) {
