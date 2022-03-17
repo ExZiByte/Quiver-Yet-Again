@@ -22,7 +22,7 @@
         <dependency>
             <groupId>net.dv8tion</groupId>
             <artifactId>JDA</artifactId>
-            <version>5.0.0-alpha.2</version>
+            <version>5.0.0-alpha.9</version>
         </dependency>
 
 <!--        &lt;!&ndash; Sedmelluq's Lavaplayer JDA Audio Sending Node &ndash;&gt;-->

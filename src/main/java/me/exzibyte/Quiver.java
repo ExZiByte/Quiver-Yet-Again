@@ -1,14 +1,14 @@
 package me.exzibyte;
 
-import me.exzibyte.Listeners.Utilities.ShutdownHook;
+import me.exzibyte.Listeners.MIscellaneous.Ready;
+import me.exzibyte.Listeners.Moderation.Ban;
+import me.exzibyte.Listeners.Moderation.Kick;
 import me.exzibyte.Utilities.Config;
 import me.exzibyte.Utilities.Database;
 import me.exzibyte.Utilities.GuildConfig;
 import me.exzibyte.Utilities.Logging;
-import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.entities.Activity;
-import net.dv8tion.jda.api.events.ShutdownEvent;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.sharding.DefaultShardManagerBuilder;
 import net.dv8tion.jda.api.sharding.ShardManager;
@@ -33,18 +33,25 @@ public class Quiver {
         database.connect();
         gConfig = new GuildConfig(this);
         gConfig.load();
-        //Access the Config file and instantiate a JDA Class with the token field's value
+        //Access the Config file and instantiate a JDA Instance with the token field's value
         quiver = DefaultShardManagerBuilder.createDefault(getConfig().get("token"));
 
 
-        quiver.setActivity(Activity.watching("my *quiver being filled with arrows"));
+        quiver.setActivity(Activity.watching("my quiver being filled with arrows"));
         quiver.setStatus(OnlineStatus.DO_NOT_DISTURB);
 
-        quiver.enableIntents(GatewayIntent.GUILD_MEMBERS);
+        quiver.enableIntents(GatewayIntent.GUILD_MEMBERS, GatewayIntent.GUILD_MESSAGES);
         quiver.setMemberCachePolicy(MemberCachePolicy.ALL);
 
         quiver.addEventListeners(
-                new ShutdownHook(this)
+
+                // Miscellaneous Listeners
+                new Ready(),
+
+                //Moderation Listeners
+                new Ban(this),
+                new Kick(this)
+
         );
 
         quiver.setEnableShutdownHook(true);
