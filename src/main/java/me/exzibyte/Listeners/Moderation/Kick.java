@@ -23,10 +23,11 @@ public class Kick extends ListenerAdapter {
     }
 
     public void onSlashCommandInteraction(SlashCommandInteractionEvent event) {
+        if (!event.getName().equals("kick")) return;
         EmbedBuilder eb = new EmbedBuilder();
         EmbedBuilder log = new EmbedBuilder();
         EmbedBuilder target = new EmbedBuilder();
-        if (!event.getName().equals("kick")) return;
+
 
         if(event.getMember().hasPermission(Permission.KICK_MEMBERS)){
             if(event.getOptions().size() == 1){

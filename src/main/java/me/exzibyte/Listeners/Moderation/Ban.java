@@ -23,10 +23,10 @@ public class Ban extends ListenerAdapter {
     }
 
     public void onSlashCommandInteraction(SlashCommandInteractionEvent event) {
+        if (!event.getName().equals("ban")) return;
         EmbedBuilder eb = new EmbedBuilder();
         EmbedBuilder log = new EmbedBuilder();
         EmbedBuilder target = new EmbedBuilder();
-        if (!event.getName().equals("ban")) return;
 
         if(event.getMember().hasPermission(Permission.BAN_MEMBERS)){
             if(event.getOptions().size() == 1){
