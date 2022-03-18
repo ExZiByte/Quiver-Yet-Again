@@ -18,6 +18,11 @@ public class Ready extends ListenerAdapter {
                 .addOption(OptionType.MENTIONABLE, "member", "The member you wish to kick", true, false)
                 .addOption(OptionType.STRING, "reason", "The reason for kicking the member", false, false)
                 .addOption(OptionType.ATTACHMENT, "proof", "Proof of the reason for the kick", false, false).queue();
+        event.getJDA().getGuildById(488137783127572491L)
+                .upsertCommand("mute", "Mute a member on the server")
+                .addOption(OptionType.MENTIONABLE, "member", "The member you wish to mute", true, false)
+                .addOption(OptionType.STRING, "reason", "The reason for muting the member", false, false)
+                .addOption(OptionType.ATTACHMENT, "proof", "Proof of the reason for the mute", false, false).queue();
     }
 
 }
