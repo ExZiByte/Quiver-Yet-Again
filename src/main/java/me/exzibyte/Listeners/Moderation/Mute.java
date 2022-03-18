@@ -186,7 +186,7 @@ public class Mute extends ListenerAdapter {
                         log.setTimestamp(Instant.now());
                         log.setFooter("Quiver Member Muted | Log");
 
-                        target.setDescription(String.format("You've been muted on %s\nReason:\n%s\n```", event.getGuild().getName(), reason));
+                        target.setDescription(String.format("You've been muted on %s\nReason:```\n%s\n```", event.getGuild().getName(), reason));
                         target.setColor(utils.failedRed);
                         target.setTimestamp(Instant.now());
                         target.setFooter("Quiver Member Muted | Private Message");
