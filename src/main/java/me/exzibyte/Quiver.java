@@ -3,6 +3,7 @@ package me.exzibyte;
 import me.exzibyte.Listeners.MIscellaneous.Ready;
 import me.exzibyte.Listeners.Moderation.Ban;
 import me.exzibyte.Listeners.Moderation.Kick;
+import me.exzibyte.Listeners.Moderation.Mute;
 import me.exzibyte.Utilities.Config;
 import me.exzibyte.Utilities.Database;
 import me.exzibyte.Utilities.GuildConfig;
@@ -50,7 +51,8 @@ public class Quiver {
 
                 //Moderation Listeners
                 new Ban(this),
-                new Kick(this)
+                new Kick(this),
+                new Mute(this)
 
         );
 
