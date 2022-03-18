@@ -39,7 +39,7 @@ public class Ban extends ListenerAdapter {
                 log.setTimestamp(Instant.now());
                 log.setFooter("Quiver Member Banned | Log");
 
-                target.setDescription(String.format("You've been banned from %s \n Reason: No reason was specified", event.getGuild().getName()));
+                target.setDescription(String.format("You've been banned from %s \nReason: No reason was specified", event.getGuild().getName()));
                 target.setColor(utils.failedRed);
                 target.setTimestamp(Instant.now());
                 target.setFooter("Quiver Banned Member | Private Message");
@@ -141,7 +141,7 @@ public class Ban extends ListenerAdapter {
             if (args[0].equalsIgnoreCase(quiver.getGuildConfig().get("prefix", event.getGuild().getId()) + "ban")) {
                 if (event.getMember().hasPermission(Permission.BAN_MEMBERS)) {
                     if (args.length < 2) {
-                        eb.setDescription("Insufficient Arguments");
+                        eb.setDescription("Insufficient Arguments\nYou have not provided enough arguments for this command to run successfully");
                         eb.setColor(utils.warningYellow);
                         eb.setFooter("Quiver Insufficient Arguments");
 

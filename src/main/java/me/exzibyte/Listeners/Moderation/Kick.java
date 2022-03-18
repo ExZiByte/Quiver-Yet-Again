@@ -142,7 +142,7 @@ public class Kick extends ListenerAdapter {
             if (args[0].equalsIgnoreCase(quiver.getGuildConfig().get("prefix", event.getGuild().getId()) + "kick")) {
                 if (event.getMember().hasPermission(Permission.KICK_MEMBERS)) {
                     if (args.length < 2) {
-                        eb.setDescription("Insufficient Arguments");
+                        eb.setDescription("Insufficient Arguments\nYou have not provided enough arguments for this command to run successfully");
                         eb.setColor(utils.warningYellow);
                         eb.setFooter("Quiver Insufficient Arguments");
 
