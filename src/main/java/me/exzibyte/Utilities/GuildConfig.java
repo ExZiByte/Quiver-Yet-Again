@@ -40,6 +40,7 @@ public class GuildConfig {
                 data.put("prefix", obj.get("prefix").toString());
                 data.put("logChannel", obj.get("logChannelID").toString());
                 data.put("joinLog", obj.get("joinLogID").toString());
+                data.put("muteRole", obj.get("muteRoleID").toString());
 
                 configuration.put(obj.get("guildID").toString(), data);
 
