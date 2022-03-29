@@ -48,7 +48,7 @@ public class Kick extends ListenerAdapter {
                 event.replyEmbeds(eb.build()).queue((msg) -> {
                     eb.clear();
                     msg.deleteOriginal().queueAfter(30, TimeUnit.SECONDS);
-                    event.getGuild().getTextChannelCache().getElementById(quiver.getGuildConfig().get("logChannel", event.getGuild().getId())).sendMessageEmbeds(log.build()).queue((msg2) -> {
+                    event.getGuild().getTextChannelCache().getElementById(quiver.getGuildConfig().get("logChannel", event.getGuild())).sendMessageEmbeds(log.build()).queue((msg2) -> {
                         log.clear();
                         event.getOption("member").getAsMember().getUser().openPrivateChannel().queue((channel) -> {
                             channel.sendMessageEmbeds(target.build()).queue();
@@ -77,7 +77,7 @@ public class Kick extends ListenerAdapter {
                 event.replyEmbeds(eb.build()).queue((msg) -> {
                     eb.clear();
                     msg.deleteOriginal().queueAfter(30, TimeUnit.SECONDS);
-                    event.getGuild().getTextChannelCache().getElementById(quiver.getGuildConfig().get("logChannel", event.getGuild().getId())).sendMessageEmbeds(log.build()).queue((msg2) -> {
+                    event.getGuild().getTextChannelCache().getElementById(quiver.getGuildConfig().get("logChannel", event.getGuild())).sendMessageEmbeds(log.build()).queue((msg2) -> {
                         log.clear();
                         event.getOption("member").getAsMember().getUser().openPrivateChannel().queue((channel) -> {
                             channel.sendMessageEmbeds(target.build()).queue();
@@ -109,7 +109,7 @@ public class Kick extends ListenerAdapter {
                 event.replyEmbeds(eb.build()).queue((msg) -> {
                     eb.clear();
                     msg.deleteOriginal().queueAfter(30, TimeUnit.SECONDS);
-                    event.getGuild().getTextChannelCache().getElementById(quiver.getGuildConfig().get("logChannel", event.getGuild().getId())).sendMessageEmbeds(log.build()).queue((msg2) -> {
+                    event.getGuild().getTextChannelCache().getElementById(quiver.getGuildConfig().get("logChannel", event.getGuild())).sendMessageEmbeds(log.build()).queue((msg2) -> {
                         log.clear();
                         event.getOption("member").getAsMember().getUser().openPrivateChannel().queue((channel) -> {
                             channel.sendMessageEmbeds(target.build()).queue();
@@ -139,7 +139,7 @@ public class Kick extends ListenerAdapter {
 
 
         if (event.isFromGuild()) {
-            if (args[0].equalsIgnoreCase(quiver.getGuildConfig().get("prefix", event.getGuild().getId()) + "kick")) {
+            if (args[0].equalsIgnoreCase(quiver.getGuildConfig().get("prefix", event.getGuild()) + "kick")) {
                 if (event.getMember().hasPermission(Permission.KICK_MEMBERS)) {
                     if (args.length < 2) {
                         eb.setDescription("Insufficient Arguments\nYou have not provided enough arguments for this command to run successfully");
@@ -169,7 +169,7 @@ public class Kick extends ListenerAdapter {
                         event.getChannel().sendMessageEmbeds(eb.build()).queue((msg) -> {
                             msg.delete().queueAfter(30, TimeUnit.SECONDS);
                             eb.clear();
-                            event.getGuild().getTextChannelCache().getElementById(quiver.getGuildConfig().get("logChannel", event.getGuild().getId())).sendMessageEmbeds(log.build()).queue((msg2) -> {
+                            event.getGuild().getTextChannelCache().getElementById(quiver.getGuildConfig().get("logChannel", event.getGuild())).sendMessageEmbeds(log.build()).queue((msg2) -> {
                                 log.clear();
                                 event.getMessage().getMentionedMembers().get(0).getUser().openPrivateChannel().queue((channel) -> {
                                     channel.sendMessageEmbeds(target.build()).queue((msg3) -> {
@@ -199,7 +199,7 @@ public class Kick extends ListenerAdapter {
                         event.getChannel().sendMessageEmbeds(eb.build()).queue((msg) -> {
                             msg.delete().queueAfter(30, TimeUnit.SECONDS);
                             eb.clear();
-                            event.getGuild().getTextChannelCache().getElementById(quiver.getGuildConfig().get("logChannel", event.getGuild().getId())).sendMessageEmbeds(log.build()).queue((msg2) -> {
+                            event.getGuild().getTextChannelCache().getElementById(quiver.getGuildConfig().get("logChannel", event.getGuild())).sendMessageEmbeds(log.build()).queue((msg2) -> {
                                 log.clear();
                                 event.getMessage().getMentionedMembers().get(0).getUser().openPrivateChannel().queue((channel) -> {
                                     channel.sendMessageEmbeds(target.build()).queue((msg3) -> {

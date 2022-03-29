@@ -46,12 +46,12 @@ public class Mute extends ListenerAdapter {
 
                 event.replyEmbeds(eb.build()).queue((msg) -> {
                     msg.deleteOriginal().queueAfter(30, TimeUnit.SECONDS);
-                    event.getGuild().getTextChannelCache().getElementById(quiver.getGuildConfig().get("logChannel", event.getGuild().getId())).sendMessageEmbeds(log.build()).queue((msg2) -> {
+                    event.getGuild().getTextChannelCache().getElementById(quiver.getGuildConfig().get("logChannel", event.getGuild())).sendMessageEmbeds(log.build()).queue((msg2) -> {
                         log.clear();
                         event.getOption("member").getAsMember().getUser().openPrivateChannel().queue((channel) -> {
                            channel.sendMessageEmbeds(target.build()).queue();
                            target.clear();
-                           event.getGuild().addRoleToMember(event.getOption("member").getAsMember(), event.getGuild().getRoleById(quiver.getGuildConfig().get("muteRole", event.getGuild().getId()))).queue();
+                           event.getGuild().addRoleToMember(event.getOption("member").getAsMember(), event.getGuild().getRoleById(quiver.getGuildConfig().get("muteRole", event.getGuild()))).queue();
                         });
                     });
                 });
@@ -74,12 +74,12 @@ public class Mute extends ListenerAdapter {
 
                 event.replyEmbeds(eb.build()).queue((msg) -> {
                     msg.deleteOriginal().queueAfter(30, TimeUnit.SECONDS);
-                    event.getGuild().getTextChannelCache().getElementById(quiver.getGuildConfig().get("logChannel", event.getGuild().getId())).sendMessageEmbeds(log.build()).queue((msg2) -> {
+                    event.getGuild().getTextChannelCache().getElementById(quiver.getGuildConfig().get("logChannel", event.getGuild())).sendMessageEmbeds(log.build()).queue((msg2) -> {
                         log.clear();
                         event.getOption("member").getAsMember().getUser().openPrivateChannel().queue((channel) -> {
                             channel.sendMessageEmbeds(target.build()).queue();
                             target.clear();
-                            event.getGuild().addRoleToMember(event.getOption("member").getAsMember(), event.getGuild().getRoleById(quiver.getGuildConfig().get("muteRole", event.getGuild().getId()))).queue();
+                            event.getGuild().addRoleToMember(event.getOption("member").getAsMember(), event.getGuild().getRoleById(quiver.getGuildConfig().get("muteRole", event.getGuild()))).queue();
                         });
                     });
                 });
@@ -105,12 +105,12 @@ public class Mute extends ListenerAdapter {
 
                 event.replyEmbeds(eb.build()).queue((msg) -> {
                     msg.deleteOriginal().queueAfter(30, TimeUnit.SECONDS);
-                    event.getGuild().getTextChannelCache().getElementById(quiver.getGuildConfig().get("logChannel", event.getGuild().getId())).sendMessageEmbeds(log.build()).queue((msg2) -> {
+                    event.getGuild().getTextChannelCache().getElementById(quiver.getGuildConfig().get("logChannel", event.getGuild())).sendMessageEmbeds(log.build()).queue((msg2) -> {
                         log.clear();
                         event.getOption("member").getAsMember().getUser().openPrivateChannel().queue((channel) -> {
                             channel.sendMessageEmbeds(target.build()).queue();
                             target.clear();
-                            event.getGuild().addRoleToMember(event.getOption("member").getAsMember(), event.getGuild().getRoleById(quiver.getGuildConfig().get("muteRole", event.getGuild().getId()))).queue();
+                            event.getGuild().addRoleToMember(event.getOption("member").getAsMember(), event.getGuild().getRoleById(quiver.getGuildConfig().get("muteRole", event.getGuild()))).queue();
                         });
                     });
                 });
@@ -134,7 +134,7 @@ public class Mute extends ListenerAdapter {
         EmbedBuilder target = new EmbedBuilder();
 
         if(event.isFromGuild()){
-            if(args[0].equalsIgnoreCase(quiver.getGuildConfig().get("prefix", event.getGuild().getId()) + "mute")){
+            if(args[0].equalsIgnoreCase(quiver.getGuildConfig().get("prefix", event.getGuild()) + "mute")){
                 if(event.getMember().hasPermission(Permission.VOICE_MUTE_OTHERS)){
                     if(args.length < 2){
                         eb.setDescription("Insufficient Arguments\nYou have not provided enough arguments for this command to run successfully");
@@ -164,12 +164,12 @@ public class Mute extends ListenerAdapter {
                         event.getChannel().sendMessageEmbeds(eb.build()).queue((msg) -> {
                            eb.clear();
                            msg.delete().queueAfter(30, TimeUnit.SECONDS);
-                           event.getGuild().getTextChannelCache().getElementById(quiver.getGuildConfig().get("logChannel", event.getGuild().getId())).sendMessageEmbeds(log.build()).queue((msg2) -> {
+                           event.getGuild().getTextChannelCache().getElementById(quiver.getGuildConfig().get("logChannel", event.getGuild())).sendMessageEmbeds(log.build()).queue((msg2) -> {
                                log.clear();
                                event.getMessage().getMentionedMembers().get(0).getUser().openPrivateChannel().queue((channel) -> {
                                   channel.sendMessageEmbeds(target.build()).queue((msg3) -> {
                                       target.clear();
-                                      event.getGuild().addRoleToMember(event.getMessage().getMentionedMembers().get(0), event.getGuild().getRoleById(quiver.getGuildConfig().get("muteRole", event.getGuild().getId()))).queue();
+                                      event.getGuild().addRoleToMember(event.getMessage().getMentionedMembers().get(0), event.getGuild().getRoleById(quiver.getGuildConfig().get("muteRole", event.getGuild()))).queue();
                                   });
                                });
                            });
@@ -194,12 +194,12 @@ public class Mute extends ListenerAdapter {
                         event.getChannel().sendMessageEmbeds(eb.build()).queue((msg) -> {
                             eb.clear();
                             msg.delete().queueAfter(30, TimeUnit.SECONDS);
-                            event.getGuild().getTextChannelCache().getElementById(quiver.getGuildConfig().get("logChannel", event.getGuild().getId())).sendMessageEmbeds(log.build()).queue((msg2) -> {
+                            event.getGuild().getTextChannelCache().getElementById(quiver.getGuildConfig().get("logChannel", event.getGuild())).sendMessageEmbeds(log.build()).queue((msg2) -> {
                                 log.clear();
                                 event.getMessage().getMentionedMembers().get(0).getUser().openPrivateChannel().queue((channel) -> {
                                     channel.sendMessageEmbeds(target.build()).queue((msg3) -> {
                                         target.clear();
-                                        event.getGuild().addRoleToMember(event.getMessage().getMentionedMembers().get(0), event.getGuild().getRoleById(quiver.getGuildConfig().get("muteRole", event.getGuild().getId()))).queue();
+                                        event.getGuild().addRoleToMember(event.getMessage().getMentionedMembers().get(0), event.getGuild().getRoleById(quiver.getGuildConfig().get("muteRole", event.getGuild()))).queue();
                                     });
                                 });
                             });
