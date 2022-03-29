@@ -1,68 +1,52 @@
 package me.exzibyte.Utilities;
-
-import com.mongodb.client.FindIterable;
-import com.mongodb.client.MongoCollection;
-import com.mongodb.client.MongoCursor;
-import me.exzibyte.Quiver;
 import org.bson.Document;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
-
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
+/**
+ * Object representation of all the config values for a specific guild
+ */
 public class GuildConfig {
 
-    private final Quiver quiver;
-    private static Logging logging = new Logging();
+    private final Document document;
+    private final Map<String, List<String>> groups;
+    private static final Logging LOGGING = new Logging();
+    private final String prefix;
+    private final String locale;
+    private final String logChannelID;
+    private final String joinLogID;
+    private final String muteRoleID;
 
-    public GuildConfig(Quiver quiver){
-        this.quiver = quiver;
-    }
-
-    public HashMap<String, HashMap<String, String>> configuration = new HashMap<String, HashMap<String, String>>();
-
-    public void load(){
-
-        MongoCollection<Document> guilds =  quiver.getDatabase().getCollection("guilds");
-
-        FindIterable<Document> iterable = guilds.find();
-        MongoCursor<Document> cursor = iterable.iterator();
-
-        try{
-            while(cursor.hasNext()){
-                JSONParser parser = new JSONParser();
-                JSONObject obj = (JSONObject) parser.parse(cursor.next().toJson());
-
-                HashMap<String, String> data = new HashMap<String, String>();
-                logging.info(this.getClass(), obj.toString());
-                data.put("locale", obj.get("locale").toString());
-                data.put("prefix", obj.get("prefix").toString());
-                data.put("logChannel", obj.get("logChannelID").toString());
-                data.put("joinLog", obj.get("joinLogID").toString());
-                data.put("muteRole", obj.get("muteRoleID").toString());
-
-                configuration.put(obj.get("guildID").toString(), data);
-
-            }
-        } catch (ParseException ex){
-            logging.error(this.getClass(), ex.toString());
-        } finally {
-            configuration.forEach((k,v) -> {
-               logging.info(this.getClass(), String.format("Key: %s, Value: %s", k, v));
-            });
-            cursor.close();
-        }
-
-
+    public GuildConfig(Document document) {
+        this.document = document;
+        this.groups = new HashMap<>();
+        this.locale = document.getString("locale");
+        this.prefix = document.getString("prefix");
+        this.logChannelID = document.getString("logChannelID");
+        this.joinLogID = document.getString("joinLogID");
+        this.muteRoleID = document.getString("muteRoleID");
     }
 
 
-    public String get(String key, String guildID){
-        return configuration.get(guildID).get(key).toString();
+    public String getPrefix() {
+        return prefix;
     }
 
-    public String get(String key, Long guildID){
-        return configuration.get(guildID).get(key).toString();
+    public String getLogChannel() {
+        return logChannelID;
     }
+
+    public String getJoinLog() {
+        return joinLogID;
+    }
+
+    public String getMuteRole() {
+        return muteRoleID;
+    }
+
+    public String getLocale() {
+        return locale;
+    }
+
 }
