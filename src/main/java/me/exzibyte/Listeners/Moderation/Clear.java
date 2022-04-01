@@ -29,21 +29,30 @@ public class Clear extends ListenerAdapter {
         EmbedBuilder eb = new EmbedBuilder();
         EmbedBuilder log = new EmbedBuilder();
 
+        if (quiver.getGuildManager().getConfig(event.getGuild().getId()).isBlacklisted()) {
+            eb.setDescription(":exclamation: This server is blacklisted and has lost the ability to use Quiver\n\nYou may appeal [here](https://quiverbot.io/blacklisted/appeal?guild=" + event.getGuild().getId() + "\"Quiver Blacklisted Server Appeal for " + event.getGuild().getName() + "\")");
+            eb.setColor(utils.failedRed);
+            eb.setTimestamp(Instant.now());
+            eb.setFooter("Quiver Blacklisted Guild");
+
+            event.replyEmbeds(eb.build()).queue();
+            return;
+        }
+
         if(event.getMember().hasPermission(Permission.MESSAGE_MANAGE)){
             if(event.getOptions().size() < 2){
-                eb.setDescription(String.format("Cleared %s messages from %s", event.getOption("amount").getAsInt(), event.getChannel().getAsMention()));
+                eb.setDescription(String.format("Cleared **%s** messages from %s", event.getOption("amount").getAsInt(), event.getChannel().getAsMention()));
                 eb.setColor(utils.successGreen);
                 eb.setFooter("Quiver Messages Cleared");
 
-                log.setDescription(String.format("%s cleared %s messages from %s", event.getMember().getAsMention(), event.getOption("amount").getAsInt(), event.getChannel().getAsMention()));
+                log.setDescription(String.format("%s cleared **%s** messages from %s", event.getMember().getAsMention(), event.getOption("amount").getAsInt(), event.getChannel().getAsMention()));
                 log.setColor(utils.warningYellow);
                 log.setTimestamp(Instant.now());
                 log.setFooter("Quiver Messages Cleared | Log");
 
                 event.replyEmbeds(eb.build()).queue((msg) -> {
-                    msg.deleteOriginal().queueAfter(30, TimeUnit.SECONDS);
                     eb.clear();
-                    event.getGuild().getTextChannelCache().getElementById(quiver.getGuildConfig().get("logChannel",event.getGuild())).sendMessageEmbeds(log.build()).queue((msg2) -> log.clear());
+                    event.getGuild().getTextChannelCache().getElementById(quiver.getGuildManager().getConfig(event.getGuild().getId()).getLogChannel()).sendMessageEmbeds(log.build()).queue((msg2) -> log.clear());
                     event.getChannel().getHistory().retrievePast(event.getOption("amount").getAsInt() + 1).queue((history) ->{
                         event.getGuild().getTextChannelCache().getElementById(event.getChannel().getId()).deleteMessages(history).queue();
                     });
@@ -51,19 +60,18 @@ public class Clear extends ListenerAdapter {
                 });
             }
             if(event.getOptions().size() == 3){
-                eb.setDescription(String.format("Cleared %s messages from %s", event.getOption("amount").getAsInt(), event.getOption("channel").getAsTextChannel().getAsMention()));
+                eb.setDescription(String.format("Cleared **%s** messages from %s", event.getOption("amount").getAsInt(), event.getOption("channel").getAsTextChannel().getAsMention()));
                 eb.setColor(utils.successGreen);
                 eb.setFooter("Quiver Messages Cleared");
 
-                log.setDescription(String.format("%s cleared %s messages from %s", event.getMember().getAsMention(), event.getOption("amount").getAsInt(), event.getOption("channel").getAsTextChannel().getAsMention()));
+                log.setDescription(String.format("%s cleared **%s** messages from %s", event.getMember().getAsMention(), event.getOption("amount").getAsInt(), event.getOption("channel").getAsTextChannel().getAsMention()));
                 log.setColor(utils.warningYellow);
                 log.setTimestamp(Instant.now());
                 log.setFooter("Quiver Messages Cleared | Log");
 
                 event.replyEmbeds(eb.build()).queue((msg) -> {
-                    msg.deleteOriginal().queueAfter(30, TimeUnit.SECONDS);
                     eb.clear();
-                    event.getGuild().getTextChannelCache().getElementById(quiver.getGuildConfig().get("logChannel",event.getGuild())).sendMessageEmbeds(log.build()).queue((msg2) -> log.clear());
+                    event.getGuild().getTextChannelCache().getElementById(quiver.getGuildManager().getConfig(event.getGuild().getId()).getLogChannel()).sendMessageEmbeds(log.build()).queue((msg2) -> log.clear());
                     event.getGuild().getTextChannelCache().getElementById(event.getOption("channel").getAsTextChannel().getId()).getHistory().retrievePast(event.getOption("amount").getAsInt() + 1).queue((history) -> {
                         event.getGuild().getTextChannelCache().getElementById(event.getOption("channel").getAsTextChannel().getId()).deleteMessages(history).queue();
                     });
@@ -87,7 +95,7 @@ public class Clear extends ListenerAdapter {
         EmbedBuilder log = new EmbedBuilder();
 
         if(event.isFromGuild()){
-            if(args[0].equalsIgnoreCase(quiver.getGuildConfig().get("prefix", event.getGuild()) + "clear")){
+            if(args[0].equalsIgnoreCase(quiver.getGuildManager().getConfig(event.getGuild().getId()).getPrefix() + "clear")){
                 if(event.getMember().hasPermission(Permission.MESSAGE_MANAGE)){
                 }
             }
