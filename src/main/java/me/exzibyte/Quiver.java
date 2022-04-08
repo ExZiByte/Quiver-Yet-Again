@@ -8,6 +8,7 @@ import me.exzibyte.Listeners.Moderation.Kick;
 import me.exzibyte.Listeners.Moderation.Mute;
 import me.exzibyte.Listeners.Settings.Settings;
 import me.exzibyte.Utilities.*;
+import me.exzibyte.arrow.ArrowController;
 import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.requests.GatewayIntent;
@@ -26,6 +27,9 @@ public class Quiver {
     private static DefaultShardManagerBuilder quiver;
     private final Database database;
     private final Logging logging = new Logging();
+
+    private final ArrowController arrowController;
+
     private Quiver() throws LoginException {
 
         //Load Config class
@@ -34,6 +38,8 @@ public class Quiver {
         this.database = new Database(this);
         database.connect();
         this.guildManager = new GuildManager(this);
+
+        this.arrowController = new ArrowController(this);
         //Access the Config file and instantiate a JDA Instance with the token field's value
         quiver = DefaultShardManagerBuilder.createDefault(getConfig().get("token"));
 
@@ -68,6 +74,8 @@ public class Quiver {
         quiver.setShardsTotal(Integer.parseInt(getConfig().get("shardCount")));
 
         manager = quiver.build();
+
+        arrowController.loadArrows(); // :D
     }
 
     public static void main(String[] args) throws LoginException{
@@ -88,5 +96,9 @@ public class Quiver {
 
     public GuildManager getGuildManager(){
         return guildManager;
+    }
+
+    public ArrowController getArrowController() {
+        return arrowController;
     }
 }
