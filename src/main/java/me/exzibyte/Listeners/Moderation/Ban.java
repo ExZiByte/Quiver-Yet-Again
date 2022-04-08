@@ -5,13 +5,10 @@ import me.exzibyte.Utilities.Utilities;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
-import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
 import java.time.Instant;
-import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
 
 public class Ban extends ListenerAdapter {
 
@@ -22,12 +19,19 @@ public class Ban extends ListenerAdapter {
         this.quiver = quiver;
     }
 
+    // also in the future we should write a command wrapper so things like this will be more uhm standardized
+    // i.e. the shit i wrote in sysbot, except ill explain it to you
+    // TODO ^^
     public void onSlashCommandInteraction(SlashCommandInteractionEvent event) {
         if (!event.getName().equals("ban")) return;
         EmbedBuilder eb = new EmbedBuilder();
         EmbedBuilder log = new EmbedBuilder();
         EmbedBuilder target = new EmbedBuilder();
-        if (quiver.getGuildManager().getConfig(event.getGuild().getId()).isBlacklisted()) {
+        
+        var guild = quiver.getGuildManager().getGuild(event.getGuild());
+        var config = guild.getConfig();
+        
+        if (config.isBlacklisted()) {
             eb.setDescription(":exclamation: This server is blacklisted and has lost the ability to use Quiver\n\nYou may appeal [here](https://quiverbot.io/blacklisted/appeal?guild=" + event.getGuild().getId() + "\"Quiver Blacklisted Server Appeal for " + event.getGuild().getName() + "\")");
             eb.setColor(utils.failedRed);
             eb.setTimestamp(Instant.now());
@@ -56,7 +60,7 @@ public class Ban extends ListenerAdapter {
                 event.replyEmbeds(eb.build()).queue((msg) -> {
                     eb.clear();
                     msg.deleteOriginal().queueAfter(30, TimeUnit.SECONDS);
-                    event.getGuild().getTextChannelCache().getElementById(quiver.getGuildManager().getConfig(event.getGuild().getId()).getLogChannel()).sendMessageEmbeds(log.build()).queue((msg2) -> {
+                    event.getGuild().getTextChannelCache().getElementById(config.getLogChannel()).sendMessageEmbeds(log.build()).queue((msg2) -> {
                        log.clear();
                        event.getOption("member").getAsMember().getUser().openPrivateChannel().queue((channel) -> {
                            channel.sendMessageEmbeds(target.build()).queue();
@@ -85,7 +89,7 @@ public class Ban extends ListenerAdapter {
                 event.replyEmbeds(eb.build()).queue((msg) -> {
                     eb.clear();
                     msg.deleteOriginal().queueAfter(30, TimeUnit.SECONDS);
-                    event.getGuild().getTextChannelCache().getElementById(quiver.getGuildManager().getConfig(event.getGuild().getId()).getLogChannel()).sendMessageEmbeds(log.build()).queue((msg2) -> {
+                    event.getGuild().getTextChannelCache().getElementById(config.getLogChannel()).sendMessageEmbeds(log.build()).queue((msg2) -> {
                         log.clear();
                         event.getOption("member").getAsMember().getUser().openPrivateChannel().queue((channel) -> {
                             channel.sendMessageEmbeds(target.build()).queue();
@@ -117,7 +121,7 @@ public class Ban extends ListenerAdapter {
                 event.replyEmbeds(eb.build()).queue((msg) -> {
                     eb.clear();
                     msg.deleteOriginal().queueAfter(30, TimeUnit.SECONDS);
-                    event.getGuild().getTextChannelCache().getElementById(quiver.getGuildManager().getConfig(event.getGuild().getId()).getLogChannel()).sendMessageEmbeds(log.build()).queue((msg2) -> {
+                    event.getGuild().getTextChannelCache().getElementById(config.getLogChannel()).sendMessageEmbeds(log.build()).queue((msg2) -> {
                         log.clear();
                         event.getOption("member").getAsMember().getUser().openPrivateChannel().queue((channel) -> {
                             channel.sendMessageEmbeds(target.build()).queue();
@@ -136,99 +140,6 @@ public class Ban extends ListenerAdapter {
                 msg.deleteOriginal().queueAfter(30, TimeUnit.SECONDS);
                 eb.clear();
             });
-        }
-    }
-
-    public void onMessageReceived(MessageReceivedEvent event) {
-        String[] args = event.getMessage().getContentRaw().split("\\s+");
-        EmbedBuilder eb = new EmbedBuilder();
-        EmbedBuilder log = new EmbedBuilder();
-        EmbedBuilder target = new EmbedBuilder();
-
-
-        if (event.isFromGuild()) {
-            if (args[0].equalsIgnoreCase(quiver.getGuildManager().getConfig(event.getGuild().getId()).getPrefix() + "ban")) {
-                if (event.getMember().hasPermission(Permission.BAN_MEMBERS)) {
-                    if (args.length < 2) {
-                        eb.setDescription("Insufficient Arguments\nYou have not provided enough arguments for this command to run successfully");
-                        eb.setColor(utils.warningYellow);
-                        eb.setFooter("Quiver Insufficient Arguments");
-
-                        event.getChannel().sendMessageEmbeds(eb.build()).queue((msg) -> {
-                            msg.delete().queueAfter(30, TimeUnit.SECONDS);
-                            eb.clear();
-                        });
-                    }
-                    if (args.length == 2) {
-                        eb.setDescription(String.format("Banned %s for No Reason Specified", event.getMessage().getMentionedMembers().get(0)));
-                        eb.setColor(utils.successGreen);
-                        eb.setFooter("Quiver Member Banned");
-
-                        log.setDescription(String.format("%s banned member: %s\n\nReason:\n```\nNo Reason\n```", event.getMember().getAsMention(), event.getMessage().getMentionedMembers().get(0)));
-                        log.setColor(utils.warningYellow);
-                        log.setTimestamp(Instant.now());
-                        log.setFooter("Quiver Member Banned | Log");
-
-                        target.setDescription(String.format("You've been banned from %s \n Reason: No reason was specified", event.getGuild().getName()));
-                        target.setColor(utils.failedRed);
-                        target.setTimestamp(Instant.now());
-                        target.setFooter("Quiver Banned Member | Private Message");
-
-                        event.getChannel().sendMessageEmbeds(eb.build()).queue((msg) -> {
-                            msg.delete().queueAfter(30, TimeUnit.SECONDS);
-                            eb.clear();
-                            event.getGuild().getTextChannelCache().getElementById(quiver.getGuildManager().getConfig(event.getGuild().getId()).getLogChannel()).sendMessageEmbeds(log.build()).queue((msg2) -> {
-                                log.clear();
-                                event.getMessage().getMentionedMembers().get(0).getUser().openPrivateChannel().queue((channel) -> {
-                                    channel.sendMessageEmbeds(target.build()).queue((msg3) -> {
-                                        target.clear();
-                                        event.getGuild().ban(event.getMessage().getMentionedMembers().get(0).getUser(), 7, String.format("No Reason | Ban Executor: %s", event.getMember().getUser().getAsTag())).queue();
-                                    });
-                                });
-                            });
-                        });
-                    }
-                    if (args.length >= 3) {
-                        String reason = Arrays.stream(args).skip(2).collect(Collectors.joining(" "));
-                        eb.setDescription(String.format("Banned %s for %s", event.getMessage().getMentionedMembers().get(0), reason));
-                        eb.setColor(utils.successGreen);
-                        eb.setFooter("Quiver Member Banned");
-
-                        log.setDescription(String.format("%s banned member: %s\n\nReason:\n```\n%s\n```", event.getMember().getAsMention(), event.getMessage().getMentionedMembers().get(0), reason));
-                        log.setColor(utils.warningYellow);
-                        log.setTimestamp(Instant.now());
-                        log.setFooter("Quiver Member Banned | Log");
-
-                        target.setDescription(String.format("You've been banned from %s \n Reason: %s", event.getGuild().getName(), reason));
-                        target.setColor(utils.failedRed);
-                        target.setTimestamp(Instant.now());
-                        target.setFooter("Quiver Banned Member | Private Message");
-
-                        event.getChannel().sendMessageEmbeds(eb.build()).queue((msg) -> {
-                            msg.delete().queueAfter(30, TimeUnit.SECONDS);
-                            eb.clear();
-                            event.getGuild().getTextChannelCache().getElementById(quiver.getGuildManager().getConfig(event.getGuild().getId()).getLogChannel()).sendMessageEmbeds(log.build()).queue((msg2) -> {
-                                log.clear();
-                                event.getMessage().getMentionedMembers().get(0).getUser().openPrivateChannel().queue((channel) -> {
-                                    channel.sendMessageEmbeds(target.build()).queue((msg3) -> {
-                                        target.clear();
-                                        event.getGuild().ban(event.getMessage().getMentionedMembers().get(0).getUser(), 7, String.format("%s | Ban Executor: %s", reason, event.getMember().getUser().getAsTag())).queue();
-                                    });
-                                });
-                            });
-                        });
-                    }
-                } else {
-                    eb.setDescription("Insufficient Permission!\nYou require the permission to ban members from this guild.\n\n If you believe this message was shown in error contact the guild owner.");
-                    eb.setColor(utils.warningYellow);
-                    eb.setFooter("Quiver Insufficient Permissions");
-
-                    event.getChannel().sendMessageEmbeds(eb.build()).queue((msg) -> {
-                        msg.delete().queueAfter(30, TimeUnit.SECONDS);
-                        eb.clear();
-                    });
-                }
-            }
         }
     }
 }

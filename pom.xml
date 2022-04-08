@@ -16,22 +16,37 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
-    <dependencies>
-        <!-- JDA Java Discord API Wrapper -->
-        <!-- https://github.com/DV8FromTheWorld/JDA -->
-        <dependency>
-            <groupId>net.dv8tion</groupId>
-            <artifactId>JDA</artifactId>
-            <version>5.0.0-alpha.9</version>
-        </dependency>
+    <repositories>
+        <repository>
+            <id>jitpack</id>
+            <url>https://jitpack.io</url>
+        </repository>
+    </repositories>
 
-<!--        &lt;!&ndash; Sedmelluq's Lavaplayer JDA Audio Sending Node &ndash;&gt;-->
-<!--        &lt;!&ndash; https://github.com/sedmelluq/lavaplayer &ndash;&gt;-->
+    <dependencies>
+
+        <!-- Xirado's Fork of JDA -->
+
+        <dependency>
+            <groupId>com.github.xirado</groupId>
+            <artifactId>JDA</artifactId>
+            <version>6adee1e</version>
+        </dependency>
+<!--        &lt;!&ndash; JDA Java Discord API Wrapper &ndash;&gt;-->
+<!--        &lt;!&ndash; https://github.com/DV8FromTheWorld/JDA &ndash;&gt;-->
 <!--        <dependency>-->
-<!--            <groupId>com.sedmelluq</groupId>-->
-<!--            <artifactId>lavaplayer</artifactId>-->
-<!--            <version>1.3.50</version>-->
+<!--            <groupId>net.dv8tion</groupId>-->
+<!--            <artifactId>JDA</artifactId>-->
+<!--            <version>5.0.0-alpha.9</version>-->
 <!--        </dependency>-->
+
+        <!--        &lt;!&ndash; Sedmelluq's Lavaplayer JDA Audio Sending Node &ndash;&gt;-->
+        <!--        &lt;!&ndash; https://github.com/sedmelluq/lavaplayer &ndash;&gt;-->
+        <!--        <dependency>-->
+        <!--            <groupId>com.sedmelluq</groupId>-->
+        <!--            <artifactId>lavaplayer</artifactId>-->
+        <!--            <version>1.3.50</version>-->
+        <!--        </dependency>-->
 
         <!-- Logback Classic -->
         <!-- http://logback.qos.ch/ -->
@@ -80,6 +95,14 @@
             <groupId>com.googlecode.json-simple</groupId>
             <artifactId>json-simple</artifactId>
             <version>1.1.1</version>
+        </dependency>
+
+        <!-- Google Guava Libraries -->
+        <!-- https://github.com/google/guava -->
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>31.1-jre</version>
         </dependency>
 
         <!-- Dotenv Java Library -->

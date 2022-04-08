@@ -1,6 +1,7 @@
 package me.exzibyte.Utilities;
 
 import net.dv8tion.jda.api.JDA;
+import net.dv8tion.jda.api.entities.Guild;
 
 public class Utilities {
 
