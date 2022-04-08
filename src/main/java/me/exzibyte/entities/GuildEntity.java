@@ -1,4 +1,4 @@
-package me.exzibyte.entity;
+package me.exzibyte.entities;
 
 import com.google.common.base.Functions;
 import net.dv8tion.jda.api.entities.Guild;

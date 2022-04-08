@@ -1,4 +1,4 @@
-package me.exzibyte.entity;
+package me.exzibyte.entities;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
