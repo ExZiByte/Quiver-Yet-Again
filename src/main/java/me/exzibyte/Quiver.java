@@ -11,6 +11,8 @@ import me.exzibyte.Listeners.Settings.Groups;
 import me.exzibyte.Listeners.Settings.Settings;
 import me.exzibyte.Utilities.*;
 import me.exzibyte.arrow.ArrowController;
+import me.exzibyte.command.CommandRegistry;
+import me.exzibyte.command.DebugCommand;
 import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.exceptions.RateLimitedException;
@@ -26,6 +28,7 @@ public class Quiver {
 
     private final Config config;
     private final GuildManager guildManager;
+    private final CommandRegistry commandRegistry;
     private static ShardManager manager;
     private static DefaultShardManagerBuilder quiver;
     private final Database database;
@@ -41,51 +44,44 @@ public class Quiver {
         this.database = new Database(this);
         database.connect();
         this.guildManager = new GuildManager(this);
-
+        this.commandRegistry = new CommandRegistry(this);
         this.arrowController = new ArrowController(this);
+
         //Access the Config file and instantiate a JDA Instance with the token field's value
-        quiver = DefaultShardManagerBuilder.createDefault(getConfig().get("token"));
+        manager = DefaultShardManagerBuilder.createDefault(getConfig().get("token"))
+                .setActivity(Activity.watching("my quiver being filled with arrows"))
+                .setStatus(OnlineStatus.DO_NOT_DISTURB)
+                .enableIntents(GatewayIntent.GUILD_MEMBERS, GatewayIntent.GUILD_MESSAGES)
+                .setMemberCachePolicy(MemberCachePolicy.ALL)
+                .setChunkingFilter(ChunkingFilter.ALL)
+                .addEventListeners(
 
+                        // Miscellaneous Listeners
+                        new JoinedGuild(this),
+                        new Ready(this),
 
-        quiver.setActivity(Activity.watching("my quiver being filled with arrows"));
-        quiver.setStatus(OnlineStatus.DO_NOT_DISTURB);
+                        //Moderation Listeners
+                        new Ban(this),
+                        new Clear(this),
+                        new Kick(this),
+                        new Mute(this),
 
-        quiver.enableIntents(GatewayIntent.GUILD_MEMBERS, GatewayIntent.GUILD_MESSAGES);
-        quiver.setMemberCachePolicy(MemberCachePolicy.ALL);
-        quiver.setChunkingFilter(ChunkingFilter.ALL);
+                        //Settings Listeners
+                        new Groups(this),
+                        new Settings(),
 
-        quiver.addEventListeners(
-
-                // Miscellaneous Listeners
-                new JoinedGuild(this),
-                new Ready(this),
-
-                //Moderation Listeners
-                new Ban(this),
-                new Clear(this),
-                new Kick(this),
-                new Mute(this),
-
-                //Settings Listeners
-                new Groups(this),
-                new Settings(),
-
-//                new RandomShit(),
-
-                getGuildManager()
-
-        );
-
-        quiver.setEnableShutdownHook(true);
-        quiver.setUseShutdownNow(false);
-        quiver.setShardsTotal(Integer.parseInt(getConfig().get("shardCount")));
-
-        manager = quiver.build();
+                        getGuildManager(),
+                        getCommandRegistry()
+                )
+                .setEnableShutdownHook(true)
+                .setUseShutdownNow(false)
+                .setShardsTotal(Integer.parseInt(getConfig().get("shardCount")))
+                .build();
 
         arrowController.loadArrows(); // :D
     }
 
-    public static void main(String[] args) throws LoginException, RateLimitedException{
+    public static void main(String[] args) throws LoginException, RateLimitedException {
         new Quiver();
     }
 
@@ -93,19 +89,26 @@ public class Quiver {
         return manager;
     }
 
-    public Database getDatabase(){
+    public Database getDatabase() {
         return database;
     }
 
-    public Config getConfig(){
+    public Config getConfig() {
         return config;
     }
 
-    public GuildManager getGuildManager(){
+    public GuildManager getGuildManager() {
         return guildManager;
+    }
+
+    public CommandRegistry getCommandRegistry() {
+        return commandRegistry;
     }
 
     public ArrowController getArrowController() {
         return arrowController;
+    }
+
+    public void onReady() {
     }
 }

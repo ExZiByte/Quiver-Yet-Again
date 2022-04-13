@@ -14,6 +14,7 @@ public class Ready extends ListenerAdapter {
     }
 
     public void onReady(ReadyEvent event) {
+        quiver.onReady();
 
 //        // TODO debug garbage
 //        for (var guild : event.getJDA().getGuilds()) {

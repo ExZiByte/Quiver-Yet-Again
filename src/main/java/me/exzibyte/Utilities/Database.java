@@ -1,9 +1,15 @@
 package me.exzibyte.Utilities;
 
 import com.mongodb.*;
+import com.mongodb.client.MongoClient;
+import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.model.Filters;
 import me.exzibyte.Quiver;
+import me.exzibyte.models.GuildConfig;
+import me.exzibyte.models.GuildEntity;
+import me.exzibyte.models.MemberEntity;
 import org.bson.Document;
 import org.bson.codecs.configuration.CodecRegistries;
 import org.bson.codecs.configuration.CodecRegistry;
@@ -11,41 +17,36 @@ import org.bson.codecs.pojo.PojoCodecProvider;
 
 public class Database {
 
+    public static final PojoCodecProvider CODEC_PROVIDER = PojoCodecProvider.builder()
+            .register(GuildEntity.class)
+            .register(GuildConfig.class)
+            .register(MemberEntity.class)
+            .build();
+    public static CodecRegistry CODEC_REGISTRY = CodecRegistries.fromRegistries(MongoClientSettings.getDefaultCodecRegistry(), CodecRegistries.fromProviders(CODEC_PROVIDER));
     private final Quiver quiver;
-    private final MongoClientURI clientURI;
     private MongoClient client;
     private MongoDatabase db;
-    public static CodecRegistry registry;
 
-    public Database(Quiver quiver){
-        // all this shit below just registers the object representations of mongo objects
-        var provider = PojoCodecProvider.builder()
-                .register("me.exzibyte.entity")
-                // TODO create a convention to keep all fields in the same order as the document
-                // we can do it in the future, i have to research that later
-                .build();
-        registry = CodecRegistries.fromRegistries(MongoClient.getDefaultCodecRegistry(), CodecRegistries.fromProviders(provider));
-        var options = MongoClientOptions.builder()
-                .codecRegistry(registry);
-
-        clientURI = new MongoClientURI(quiver.getConfig().get("dbURI"), options);
+    public Database(Quiver quiver) {
         this.quiver = quiver;
+
+        var settings = MongoClientSettings.builder()
+                .applyConnectionString(new ConnectionString(quiver.getConfig().get("dbURI")))
+                .codecRegistry(CODEC_REGISTRY)
+                .build();
+        this.client = MongoClients.create(settings);
     }
 
     public void connect() {
-        client = new MongoClient(clientURI);
         db = client.getDatabase("Quiver");
-    }
-
-    public MongoDatabase get() {
-        return db;
     }
 
     public MongoCollection<Document> getCollection(String collection) {
         return db.getCollection(collection);
     }
 
-    public void close() {
-        client.close();
+
+    public <T> MongoCollection<T> getCollection(String collection, Class<T> model) {
+        return db.getCollection(collection, model);
     }
 }
