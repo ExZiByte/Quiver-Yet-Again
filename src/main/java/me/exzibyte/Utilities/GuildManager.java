@@ -47,6 +47,7 @@ public class GuildManager extends ListenerAdapter {
     @Override
     public void onGuildReady(@NotNull GuildReadyEvent event) {
         var guild = event.getGuild();
+
         var collection = quiver.getDatabase().get().getCollection("guilds", GuildEntity.class);
         var entity = collection.find(eq("_id", guild.getIdLong())).first();
 

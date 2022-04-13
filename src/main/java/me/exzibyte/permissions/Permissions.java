@@ -1,6 +1,7 @@
 package me.exzibyte.permissions;
 
 import com.google.common.collect.HashMultimap;
+import me.exzibyte.permissions.groups.Group;
 import org.bson.Document;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -19,8 +20,6 @@ public class Permissions {
         this.groups = parseGroups(document);
         this.memberGroups = parseBenis(document); // tODO change to member doc xd
     }
-
-    // this should work for loading, needa implement new groups now and user permissions
 
     @Nullable
     public Group getGroup(String name) {
@@ -49,8 +48,6 @@ public class Permissions {
     private HashMultimap<Long, Group> parseBenis(Document document) {
         var members = HashMultimap.<Long, Group>create();
 
-        // i wanna try an experiment.
-
         for (var member : document.values()) {
             var memberDoc = (Document) member;
             var id = memberDoc.getLong("memberID");
@@ -70,9 +67,4 @@ public class Permissions {
         return members;
     }
 
-
-
-    // so inheritance then
-    // oh for the user, i mean we can just not do it that way
-    // yeehaw 🤠🤠🤠 !!!!
 }

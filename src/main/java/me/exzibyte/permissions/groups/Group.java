@@ -1,4 +1,4 @@
-package me.exzibyte.permissions;
+package me.exzibyte.permissions.groups;
 
 import java.util.Set;
 

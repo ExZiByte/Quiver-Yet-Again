@@ -1,6 +1,7 @@
 package me.exzibyte.Listeners.Moderation;
 
 import me.exzibyte.Quiver;
+import me.exzibyte.Utilities.StaticEmbeds;
 import me.exzibyte.Utilities.Utilities;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
@@ -29,13 +30,11 @@ public class Clear extends ListenerAdapter {
         EmbedBuilder eb = new EmbedBuilder();
         EmbedBuilder log = new EmbedBuilder();
 
-        if (quiver.getGuildManager().getConfig(event.getGuild().getId()).isBlacklisted()) {
-            eb.setDescription(":exclamation: This server is blacklisted and has lost the ability to use Quiver\n\nYou may appeal [here](https://quiverbot.io/blacklisted/appeal?guild=" + event.getGuild().getId() + "\"Quiver Blacklisted Server Appeal for " + event.getGuild().getName() + "\")");
-            eb.setColor(utils.failedRed);
-            eb.setTimestamp(Instant.now());
-            eb.setFooter("Quiver Blacklisted Guild");
+        var guild = quiver.getGuildManager().getGuild(event.getGuild());
+        var config = guild.getConfig();
 
-            event.replyEmbeds(eb.build()).queue();
+        if (config.isBlacklisted()) {
+            event.replyEmbeds(StaticEmbeds.blacklisted(event.getGuild())).queue();
             return;
         }
 
@@ -52,7 +51,7 @@ public class Clear extends ListenerAdapter {
 
                 event.replyEmbeds(eb.build()).queue((msg) -> {
                     eb.clear();
-                    event.getGuild().getTextChannelCache().getElementById(quiver.getGuildManager().getConfig(event.getGuild().getId()).getLogChannel()).sendMessageEmbeds(log.build()).queue((msg2) -> log.clear());
+                    event.getGuild().getTextChannelCache().getElementById(quiver.getGuildManager().getGuild(event.getGuild()).getConfig().getLogChannel()).sendMessageEmbeds(log.build()).queue((msg2) -> log.clear());
                     event.getChannel().getHistory().retrievePast(event.getOption("amount").getAsInt() + 1).queue((history) ->{
                         event.getGuild().getTextChannelCache().getElementById(event.getChannel().getId()).deleteMessages(history).queue();
                     });
@@ -71,7 +70,7 @@ public class Clear extends ListenerAdapter {
 
                 event.replyEmbeds(eb.build()).queue((msg) -> {
                     eb.clear();
-                    event.getGuild().getTextChannelCache().getElementById(quiver.getGuildManager().getConfig(event.getGuild().getId()).getLogChannel()).sendMessageEmbeds(log.build()).queue((msg2) -> log.clear());
+                    event.getGuild().getTextChannelCache().getElementById(quiver.getGuildManager().getGuild(event.getGuild()).getConfig().getLogChannel()).sendMessageEmbeds(log.build()).queue((msg2) -> log.clear());
                     event.getGuild().getTextChannelCache().getElementById(event.getOption("channel").getAsTextChannel().getId()).getHistory().retrievePast(event.getOption("amount").getAsInt() + 1).queue((history) -> {
                         event.getGuild().getTextChannelCache().getElementById(event.getOption("channel").getAsTextChannel().getId()).deleteMessages(history).queue();
                     });
@@ -89,17 +88,5 @@ public class Clear extends ListenerAdapter {
         }
     }
 
-    public void onMessageReceived(MessageReceivedEvent event){
-        String[] args = event.getMessage().getContentRaw().split("\\s+");
-        EmbedBuilder eb = new EmbedBuilder();
-        EmbedBuilder log = new EmbedBuilder();
-
-        if(event.isFromGuild()){
-            if(args[0].equalsIgnoreCase(quiver.getGuildManager().getConfig(event.getGuild().getId()).getPrefix() + "clear")){
-                if(event.getMember().hasPermission(Permission.MESSAGE_MANAGE)){
-                }
-            }
-        }
-    }
 
 }

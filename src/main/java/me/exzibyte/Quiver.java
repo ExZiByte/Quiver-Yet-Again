@@ -1,16 +1,19 @@
 package me.exzibyte;
 
 import me.exzibyte.Listeners.Miscellaneous.JoinedGuild;
+import me.exzibyte.Listeners.Miscellaneous.RandomShit;
 import me.exzibyte.Listeners.Miscellaneous.Ready;
 import me.exzibyte.Listeners.Moderation.Ban;
 import me.exzibyte.Listeners.Moderation.Clear;
 import me.exzibyte.Listeners.Moderation.Kick;
 import me.exzibyte.Listeners.Moderation.Mute;
+import me.exzibyte.Listeners.Settings.Groups;
 import me.exzibyte.Listeners.Settings.Settings;
 import me.exzibyte.Utilities.*;
 import me.exzibyte.arrow.ArrowController;
 import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.entities.Activity;
+import net.dv8tion.jda.api.exceptions.RateLimitedException;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.sharding.DefaultShardManagerBuilder;
 import net.dv8tion.jda.api.sharding.ShardManager;
@@ -30,7 +33,7 @@ public class Quiver {
 
     private final ArrowController arrowController;
 
-    private Quiver() throws LoginException {
+    private Quiver() throws LoginException, RateLimitedException {
 
         //Load Config class
         config = new Config(this);
@@ -63,7 +66,11 @@ public class Quiver {
                 new Kick(this),
                 new Mute(this),
 
+                //Settings Listeners
+                new Groups(this),
                 new Settings(),
+
+//                new RandomShit(),
 
                 getGuildManager()
 
@@ -78,7 +85,7 @@ public class Quiver {
         arrowController.loadArrows(); // :D
     }
 
-    public static void main(String[] args) throws LoginException{
+    public static void main(String[] args) throws LoginException, RateLimitedException{
         new Quiver();
     }
 

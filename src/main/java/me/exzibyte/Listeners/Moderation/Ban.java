@@ -1,6 +1,7 @@
 package me.exzibyte.Listeners.Moderation;
 
 import me.exzibyte.Quiver;
+import me.exzibyte.Utilities.StaticEmbeds;
 import me.exzibyte.Utilities.Utilities;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
@@ -15,6 +16,7 @@ public class Ban extends ListenerAdapter {
     private final Quiver quiver;
     Utilities utils = new Utilities();
 
+    //@Permission("commands.moderation.ban")
     public Ban(Quiver quiver) {
         this.quiver = quiver;
     }
@@ -27,17 +29,12 @@ public class Ban extends ListenerAdapter {
         EmbedBuilder eb = new EmbedBuilder();
         EmbedBuilder log = new EmbedBuilder();
         EmbedBuilder target = new EmbedBuilder();
-        
+
         var guild = quiver.getGuildManager().getGuild(event.getGuild());
         var config = guild.getConfig();
-        
-        if (config.isBlacklisted()) {
-            eb.setDescription(":exclamation: This server is blacklisted and has lost the ability to use Quiver\n\nYou may appeal [here](https://quiverbot.io/blacklisted/appeal?guild=" + event.getGuild().getId() + "\"Quiver Blacklisted Server Appeal for " + event.getGuild().getName() + "\")");
-            eb.setColor(utils.failedRed);
-            eb.setTimestamp(Instant.now());
-            eb.setFooter("Quiver Blacklisted Guild");
 
-            event.replyEmbeds(eb.build()).queue();
+        if (config.isBlacklisted()) {
+            event.replyEmbeds(StaticEmbeds.blacklisted(event.getGuild())).queue();
             return;
         }
 

@@ -56,20 +56,12 @@
             <version>1.2.9</version>
         </dependency>
 
-        <!-- Reactive Streams Asynchronous MongoDB Driver -->
-        <!-- https://www.reactive-streams.org/ -->
-        <dependency>
-            <groupId>org.reactivestreams</groupId>
-            <artifactId>reactive-streams</artifactId>
-            <version>1.0.3</version>
-        </dependency>
-
         <!-- MongoDB Synchronous Java Driver !!BACKUP ONLY!! -->
         <!-- https://mongodb.com -->
         <dependency>
             <groupId>org.mongodb</groupId>
             <artifactId>mongo-java-driver</artifactId>
-            <version>3.12.9</version>
+            <version>3.12.10</version>
         </dependency>
 
         <!-- Apache HTTP -->

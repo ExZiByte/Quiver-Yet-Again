@@ -59,16 +59,36 @@ public class Ready extends ListenerAdapter {
 
 
         event.getJDA()
-                .upsertCommand("set", "Define settings for the server")
-                .addSubcommands(new SubcommandData("setting", "The setting that you would like to modify")
+                .upsertCommand("settings", "Define settings for the server")
+                .addSubcommands(new SubcommandData("update", "Modify a setting. You can modify multiple of them at the same time.")
                         .addOption(OptionType.CHANNEL, "log-channel", "Set the log channel")
                         .addOption(OptionType.CHANNEL, "announcement-channel", "Set the announcements channel")
                         .addOption(OptionType.CHANNEL, "join-log-channel", "Set the join/leave log channel")
                         .addOption(OptionType.ROLE, "mute-role", "Set the muted role")
-                        .addOption(OptionType.STRING, "locale", "Set the language that you would like Quiver to talk in")
-                        .addOption(OptionType.STRING, "prefix", "Set the prefix for commands if you wish to not use Slash Commands"))
-                .queue();
+                        .addOption(OptionType.STRING, "locale", "Set the language that you would like Quiver to talk in"))
+                .addSubcommands(new SubcommandData("reset", "Reset a setting back to the default value")
+                        .addOption(OptionType.CHANNEL, "log-channel", "Reset the log channel")
+                        .addOption(OptionType.CHANNEL, "announcement-channel", "Reset the announcements channel")
+                        .addOption(OptionType.CHANNEL, "join-log-channel", "Reset the join/leave log channel")
+                        .addOption(OptionType.ROLE, "mute-role", "Reset the muted role")
+                        .addOption(OptionType.STRING, "locale", "Reset the language that you would like Quiver to talk in")).queue();
 
+        //event.getJDA().deleteCommandById(962901723112951818L).queue();
+
+        event.getJDA()
+                .upsertCommand("groups", "Manage groups and permissions")
+                .addSubcommands(new SubcommandData("create", "Create a group")
+                        .addOption(OptionType.STRING, "name", "The name of the group and how you would modify this group later", true, false))
+                .addSubcommands(new SubcommandData("rename", "Rename an existing group")
+                        .addOption(OptionType.STRING, "name", "The current name of the group you want to rename", true , false)
+                        .addOption(OptionType.STRING, "new-name", "The new name for this group", true, false))
+                .addSubcommands(new SubcommandData("give", "Give a group a permission node")
+                        .addOption(OptionType.STRING, "name", "The name of the group that you would like to grant a permission to.", true, false)
+                        .addOption(OptionType.STRING, "permission", "A permission node to give the group, for a list of these https://quiverbot.io/permissions", true, false))
+                .addSubcommands(new SubcommandData("parse-permissions", "Upload a permissions.json file to parse permissions from")
+                        .addOption(OptionType.ATTACHMENT, "permissions-json", "The permissions.json file to parse permissions from. For help https://quiverbot.io/permissions", true, false))
+                .addSubcommands(new SubcommandData("delete", "Delete a group")
+                        .addOption(OptionType.STRING, "name", "The name of the group you would like to delete", true, false)).queue();
     }
 
 }

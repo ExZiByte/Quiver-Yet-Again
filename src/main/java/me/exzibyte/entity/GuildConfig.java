@@ -1,4 +1,4 @@
-package me.exzibyte.entities;
+package me.exzibyte.entity;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -9,7 +9,6 @@ import org.jetbrains.annotations.Nullable;
 public class GuildConfig {
 
     // private final Map<String, List<String>> groups;
-    private final String prefix;
     private final String locale;
     private final Long logChannel;
     private final Long joinLog;
@@ -20,12 +19,12 @@ public class GuildConfig {
 
     @NotNull
     public static GuildConfig defaultSettings() {
-        return new GuildConfig("q!", "en_US", null, null, null, null, false, false);
+        return new GuildConfig( "en_US", null, null, null, null, false, false);
     }
 
     // this is gonna get weird with default values, idk we can try
-    public GuildConfig(String prefix, String locale, Long logChannel, Long joinLog, Long muteRole, Long announcementChannel, boolean blacklisted, boolean premium) {
-        this.prefix = prefix;
+    public GuildConfig( String locale, Long logChannel, Long joinLog, Long muteRole, Long announcementChannel, boolean blacklisted, boolean premium) {
+
         this.locale = locale;
         this.logChannel = logChannel;
         this.joinLog = joinLog;
@@ -33,10 +32,6 @@ public class GuildConfig {
         this.announcementChannel = announcementChannel;
         this.blacklisted = blacklisted;
         this.premium = premium;
-    }
-
-    public String getPrefix() {
-        return prefix;
     }
 
     @Nullable

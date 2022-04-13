@@ -1,4 +1,4 @@
-package me.exzibyte.entities;
+package me.exzibyte.entity;
 
 import net.dv8tion.jda.api.entities.Member;
 

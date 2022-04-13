@@ -6,8 +6,8 @@ import com.mongodb.client.MongoDatabase;
 import me.exzibyte.Quiver;
 import org.bson.Document;
 import org.bson.codecs.configuration.CodecRegistries;
+import org.bson.codecs.configuration.CodecRegistry;
 import org.bson.codecs.pojo.PojoCodecProvider;
-import org.jetbrains.annotations.NotNull;
 
 public class Database {
 
@@ -15,6 +15,7 @@ public class Database {
     private final MongoClientURI clientURI;
     private MongoClient client;
     private MongoDatabase db;
+    public static CodecRegistry registry;
 
     public Database(Quiver quiver){
         // all this shit below just registers the object representations of mongo objects
@@ -23,7 +24,7 @@ public class Database {
                 // TODO create a convention to keep all fields in the same order as the document
                 // we can do it in the future, i have to research that later
                 .build();
-        var registry = CodecRegistries.fromRegistries(MongoClient.getDefaultCodecRegistry(), CodecRegistries.fromProviders(provider));
+        registry = CodecRegistries.fromRegistries(MongoClient.getDefaultCodecRegistry(), CodecRegistries.fromProviders(provider));
         var options = MongoClientOptions.builder()
                 .codecRegistry(registry);
 

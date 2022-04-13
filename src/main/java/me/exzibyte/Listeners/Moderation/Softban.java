@@ -1,6 +1,7 @@
 package me.exzibyte.Listeners.Moderation;
 
 import me.exzibyte.Quiver;
+import me.exzibyte.Utilities.StaticEmbeds;
 import me.exzibyte.Utilities.Utilities;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
@@ -24,15 +25,15 @@ public class Softban extends ListenerAdapter {
         EmbedBuilder eb = new EmbedBuilder();
         EmbedBuilder log = new EmbedBuilder();
         EmbedBuilder target = new EmbedBuilder();
-        if (quiver.getGuildManager().getConfig(event.getGuild().getId()).isBlacklisted()) {
-            eb.setDescription(":exclamation: This server is blacklisted and has lost the ability to use Quiver\n\nYou may appeal [here](https://quiverbot.io/blacklisted/appeal?guild=" + event.getGuild().getId() + "\"Quiver Blacklisted Server Appeal for " + event.getGuild().getName() + "\")");
-            eb.setColor(utils.failedRed);
-            eb.setTimestamp(Instant.now());
-            eb.setFooter("Quiver Blacklisted Guild");
 
-            event.replyEmbeds(eb.build()).queue();
+        var guild = quiver.getGuildManager().getGuild(event.getGuild());
+        var config = guild.getConfig();
+
+        if (config.isBlacklisted()) {
+            event.replyEmbeds(StaticEmbeds.blacklisted(event.getGuild())).queue();
             return;
         }
+
         if(event.getMember().hasPermission(Permission.BAN_MEMBERS)){
             if(event.getOptions().size() == 1){
                 eb.setDescription(String.format("Softbanned %s for No Reason Specified", event.getOption("member").getAsMember().getAsMention()));
@@ -52,7 +53,7 @@ public class Softban extends ListenerAdapter {
                 event.replyEmbeds(eb.build()).queue((msg) -> {
                     eb.clear();
                     msg.deleteOriginal().queueAfter(30, TimeUnit.SECONDS);
-                    event.getGuild().getTextChannelCache().getElementById(quiver.getGuildManager().getConfig(event.getGuild().getId()).getLogChannel()).sendMessageEmbeds(log.build()).queue((msg2) -> {
+                    event.getGuild().getTextChannelCache().getElementById(quiver.getGuildManager().getGuild(event.getGuild()).getConfig().getLogChannel()).sendMessageEmbeds(log.build()).queue((msg2) -> {
                         log.clear();
                         event.getOption("member").getAsMember().getUser().openPrivateChannel().queue((channel) -> {
                             channel.sendMessageEmbeds(target.build()).queue();

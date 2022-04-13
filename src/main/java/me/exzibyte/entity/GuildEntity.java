@@ -1,4 +1,4 @@
-package me.exzibyte.entities;
+package me.exzibyte.entity;
 
 import com.google.common.base.Functions;
 import net.dv8tion.jda.api.entities.Guild;
@@ -16,6 +16,7 @@ public class GuildEntity {
 
     public static GuildEntity defaultFromGuild(Guild guild) {
         var members = guild.getMembers().stream()
+                .filter(member -> !member.getUser().isBot())
                 .map(MemberEntity::fromMember)
                 .collect(Collectors.toMap(entity -> String.valueOf(entity.getId()), Functions.identity()));
 
